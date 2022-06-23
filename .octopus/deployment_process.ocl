@@ -1,0 +1,26 @@
+step "Deploy RandomQuotes" {
+    properties = {
+        Octopus.Action.TargetRoles = "RandomQuotes-Web"
+    }
+
+    action {
+        action_type = "Octopus.AzureWebApp"
+        properties = {
+            Octopus.Action.Azure.UseChecksum = "False"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "Octopus Server (built-in)"
+            Octopus.Action.Package.PackageId = "RandomQuotes"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "Windows"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "Octopus Server (built-in)"
+            package_id = "RandomQuotes"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
